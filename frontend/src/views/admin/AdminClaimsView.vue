@@ -1,5 +1,5 @@
 <template>
-  <AdminShell eyebrow="Claims" title="兑奖核验" description="输入中奖编号，核对身份并确认兑奖状态。">
+  <AdminShell eyebrow="Claims" title="兑奖核验" description="输入中奖编号，核对信息并确认兑奖状态。">
     <section class="two-column-grid">
       <form class="glass-card claim-form" @submit.prevent="verify">
         <div class="section-heading">
@@ -23,15 +23,14 @@
 
         <div class="panel-cluster">
           <p><span class="muted">编号：</span>{{ claim.raffle_no }}</p>
-          <p><span class="muted">昵称：</span>{{ claim.nickname }}</p>
           <p><span class="muted">学号：</span>{{ claim.student_no }}</p>
-          <p><span class="muted">姓名：</span>{{ claim.real_name }}</p>
           <p>
             <span class="muted">状态：</span>
             <span :class="['status-pill', claim.claimed ? 'success' : 'pending']">
               {{ claim.claimed ? '已兑奖' : '未兑奖' }}
             </span>
           </p>
+          <p class="muted">若中奖，请凭学生证或教务在线首页兑奖。</p>
         </div>
 
         <button class="primary-btn" :disabled="claim.claimed" @click="confirmClaim">确认兑奖</button>

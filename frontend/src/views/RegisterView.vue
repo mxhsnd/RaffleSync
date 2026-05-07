@@ -9,24 +9,15 @@
         </div>
 
         <label>
-          <span>昵称</span>
-          <input v-model="form.nickname" placeholder="用于公开展示" />
-        </label>
-
-        <label>
           <span>学号</span>
-          <input v-model="form.studentNo" placeholder="仅兑奖核验使用" />
-        </label>
-
-        <label>
-          <span>姓名</span>
-          <input v-model="form.realName" placeholder="仅兑奖核验使用" />
+          <input v-model="form.studentNo" placeholder="输入学号领取抽奖编号" />
         </label>
 
         <button class="primary-btn register-cta" :disabled="submitting">
           {{ submitting ? '提交中...' : '参与抽奖' }}
         </button>
 
+        <p class="muted">若中奖，请凭学生证或教务在线首页兑奖。</p>
         <p v-if="errorMessage" class="error-text">{{ errorMessage }}</p>
       </form>
     </section>
@@ -43,9 +34,7 @@ const router = useRouter()
 const submitting = ref(false)
 const errorMessage = ref('')
 const form = reactive({
-  nickname: '',
   studentNo: '',
-  realName: '',
 })
 
 async function submit() {
@@ -53,7 +42,13 @@ async function submit() {
   submitting.value = true
   try {
     const { data } = await api.post('/public/register', form)
-    router.push({ name: 'success', query: { raffleNo: data.raffleNo, nickname: data.nickname } })
+    router.push({
+      name: 'success',
+      query: {
+        raffleNo: data.raffleNo,
+        alreadyRegistered: String(data.alreadyRegistered),
+      },
+    })
   } catch (error) {
     errorMessage.value = error.response?.data?.message || '提交失败，请稍后重试'
   } finally {

@@ -12,7 +12,7 @@
           <div class="section-heading">
             <span class="kicker">Latest Winner</span>
             <h2>{{ winner.raffle_no }}</h2>
-            <p class="muted">{{ winner.nickname }}</p>
+            <p class="muted">{{ winner.student_no }}</p>
           </div>
           <span class="status-pill success">恭喜中奖</span>
         </div>
@@ -26,7 +26,7 @@ import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 
 const raffleNumbers = Array.from({ length: 40 }, (_, index) => `R${String(index + 1).padStart(6, '0')}`)
 const currentIndex = ref(0)
-const winner = ref({ raffle_no: '', nickname: '' })
+const winner = ref({ raffle_no: '', student_no: '' })
 let timer = null
 
 const rollingNumber = computed(() => raffleNumbers[currentIndex.value % raffleNumbers.length])

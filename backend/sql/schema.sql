@@ -1,9 +1,9 @@
 CREATE TABLE IF NOT EXISTS participants (
   id SERIAL PRIMARY KEY,
   raffle_no VARCHAR(20) UNIQUE NOT NULL,
-  nickname VARCHAR(60) NOT NULL,
+  nickname VARCHAR(60),
   student_no VARCHAR(40) UNIQUE NOT NULL,
-  real_name VARCHAR(60) NOT NULL,
+  real_name VARCHAR(60),
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS winner_records (
   participant_id INTEGER NOT NULL REFERENCES participants(id) ON DELETE CASCADE,
   prize_id INTEGER NOT NULL REFERENCES prizes(id) ON DELETE CASCADE,
   raffle_no VARCHAR(20) NOT NULL,
-  nickname VARCHAR(60) NOT NULL,
+  nickname VARCHAR(60),
   claimed BOOLEAN DEFAULT FALSE,
   claimed_at TIMESTAMP NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

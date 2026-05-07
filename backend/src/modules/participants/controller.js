@@ -7,26 +7,30 @@ function buildRaffleNo(id) {
 export async function getActivity(req, res) {
   res.json({
     title: '星光抽奖夜',
-    subtitle: '扫码登记，领取专属编号，等待幸运降临。',
-    privacy: '学号和姓名仅用于中奖后的身份核验，不用于公开展示。',
+    subtitle: '输入学号，立即领取你的抽奖编号。',
+    privacy: '若中奖，请凭学生证或教务在线首页兑奖。',
   })
 }
 
 export async function registerParticipant(req, res) {
-  const { nickname, studentNo, realName } = req.body
+  const studentNo = req.body.studentNo?.trim()
 
-  if (!nickname || !studentNo || !realName) {
-    return res.status(400).json({ message: '请完整填写信息' })
+  if (!studentNo) {
+    return res.status(400).json({ message: '请输入学号' })
   }
 
   const existing = await query('SELECT raffle_no FROM participants WHERE student_no = $1', [studentNo])
   if (existing.rowCount > 0) {
-    return res.status(409).json({ message: '该学号已报名', raffleNo: existing.rows[0].raffle_no })
+    return res.json({
+      message: '该学号已经参与抽奖，已返回原抽奖编号',
+      raffleNo: existing.rows[0].raffle_no,
+      alreadyRegistered: true,
+    })
   }
 
   const inserted = await query(
-    'INSERT INTO participants (raffle_no, nickname, student_no, real_name) VALUES ($1, $2, $3, $4) RETURNING id, raffle_no, nickname',
-    ['PENDING', nickname.trim(), studentNo.trim(), realName.trim()],
+    'INSERT INTO participants (raffle_no, student_no) VALUES ($1, $2) RETURNING id',
+    ['PENDING', studentNo],
   )
 
   const participant = inserted.rows[0]
@@ -35,15 +39,15 @@ export async function registerParticipant(req, res) {
   await query('UPDATE participants SET raffle_no = $1 WHERE id = $2', [raffleNo, participant.id])
 
   res.status(201).json({
-    message: '报名成功',
+    message: '参与成功',
     raffleNo,
-    nickname: participant.nickname,
+    alreadyRegistered: false,
   })
 }
 
 export async function listParticipants(req, res) {
   const result = await query(
-    'SELECT id, raffle_no, nickname, student_no, real_name, created_at FROM participants ORDER BY id DESC',
+    'SELECT id, raffle_no, student_no, created_at FROM participants ORDER BY id DESC',
     [],
   )
 

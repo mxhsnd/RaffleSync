@@ -28,7 +28,7 @@
         <div v-if="winners.length" class="winner-list">
           <article v-for="winner in winners" :key="winner.raffle_no" class="winner-item">
             <strong>{{ winner.raffle_no }}</strong>
-            <span>{{ winner.nickname }}</span>
+            <span>{{ winner.student_no }}</span>
           </article>
         </div>
 

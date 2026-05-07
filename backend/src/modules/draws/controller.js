@@ -32,7 +32,7 @@ export async function drawWinners(req, res) {
   }
 
   const candidateResult = await query(
-    `SELECT p.id, p.raffle_no, p.nickname
+    `SELECT p.id, p.raffle_no, p.student_no
      FROM participants p
      WHERE NOT EXISTS (
        SELECT 1 FROM winner_records w WHERE w.participant_id = p.id
@@ -50,7 +50,7 @@ export async function drawWinners(req, res) {
   for (const winner of winners) {
     await query(
       'INSERT INTO winner_records (participant_id, prize_id, raffle_no, nickname) VALUES ($1, $2, $3, $4)',
-      [winner.id, prize.id, winner.raffle_no, winner.nickname],
+      [winner.id, prize.id, winner.raffle_no, null],
     )
   }
 
@@ -62,7 +62,7 @@ export async function drawWinners(req, res) {
 
 export async function listWinners(req, res) {
   const result = await query(
-    `SELECT w.id, w.raffle_no, w.nickname, w.claimed, w.claimed_at, w.created_at, p.name AS prize_name
+    `SELECT w.id, w.raffle_no, w.claimed, w.claimed_at, w.created_at, p.name AS prize_name
      FROM winner_records w
      JOIN prizes p ON p.id = w.prize_id
      ORDER BY w.id DESC`,

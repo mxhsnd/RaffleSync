@@ -8,7 +8,7 @@ export async function verifyClaim(req, res) {
   }
 
   const result = await query(
-    `SELECT w.id AS winner_id, w.claimed, p.raffle_no, p.nickname, p.student_no, p.real_name, pr.name AS prize_name
+    `SELECT w.id AS winner_id, w.claimed, p.raffle_no, p.student_no, pr.name AS prize_name
      FROM winner_records w
      JOIN participants p ON p.id = w.participant_id
      JOIN prizes pr ON pr.id = w.prize_id

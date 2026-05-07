@@ -3,15 +3,17 @@
     <section class="success-shell">
       <div class="glass-card success-card">
         <p class="eyebrow">Registration Complete</p>
-        <h1>欢迎加入抽奖</h1>
-        <p class="subtitle">请保存你的专属编号，抽奖与兑奖都将以它为准。</p>
+        <h1>{{ alreadyRegistered ? '该学号已参与抽奖' : '欢迎加入抽奖' }}</h1>
+        <p class="subtitle">
+          {{ alreadyRegistered ? '已返回你之前分配的抽奖编号。' : '你的专属抽奖编号已生成，请妥善保存。' }}
+        </p>
 
         <div class="raffle-number">{{ raffleNo }}</div>
 
         <div class="info-strip" style="width: 100%">
           <article class="surface-card info-card">
-            <span>昵称</span>
-            <strong>{{ nickname }}</strong>
+            <span>兑奖提醒</span>
+            <strong>若中奖，请凭学生证或教务在线首页兑奖</strong>
           </article>
           <article class="surface-card info-card">
             <span>下一步</span>
@@ -35,5 +37,5 @@ import PublicShell from '../components/PublicShell.vue'
 
 const route = useRoute()
 const raffleNo = computed(() => route.query.raffleNo || 'R000000')
-const nickname = computed(() => route.query.nickname || '幸运来宾')
+const alreadyRegistered = computed(() => route.query.alreadyRegistered === 'true')
 </script>
