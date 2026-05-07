@@ -6,6 +6,7 @@ import { createPrize, listPrizes } from './modules/prizes/controller.js'
 import { drawWinners, listWinners } from './modules/draws/controller.js'
 import { verifyClaim, confirmClaim } from './modules/claims/controller.js'
 import { getDashboard } from './modules/dashboard/controller.js'
+import { getAdminSettings, getPublicSettings, updateAdminSettings } from './modules/settings/controller.js'
 import { requireAuth } from './middleware/requireAuth.js'
 
 export function createApp() {
@@ -16,6 +17,7 @@ export function createApp() {
 
   app.get('/api/health', (req, res) => res.json({ ok: true }))
   app.get('/api/public/activity', getActivity)
+  app.get('/api/public/settings', getPublicSettings)
   app.post('/api/public/register', registerParticipant)
   app.post('/api/public/lookup', lookupParticipantByStudentNo)
   app.post('/api/auth/login', login)
@@ -28,6 +30,8 @@ export function createApp() {
   app.get('/api/admin/winners', requireAuth, listWinners)
   app.post('/api/admin/claims/verify', requireAuth, verifyClaim)
   app.post('/api/admin/claims/confirm', requireAuth, confirmClaim)
+  app.get('/api/admin/settings', requireAuth, getAdminSettings)
+  app.put('/api/admin/settings', requireAuth, updateAdminSettings)
 
   app.use((error, req, res, next) => {
     console.error(error)

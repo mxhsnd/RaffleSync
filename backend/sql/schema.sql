@@ -26,3 +26,14 @@ CREATE TABLE IF NOT EXISTS winner_records (
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   UNIQUE (participant_id, prize_id)
 );
+
+CREATE TABLE IF NOT EXISTS site_settings (
+  id SMALLINT PRIMARY KEY DEFAULT 1,
+  ticket_theme VARCHAR(40) NOT NULL DEFAULT 'aurora',
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT site_settings_single_row CHECK (id = 1)
+);
+
+INSERT INTO site_settings (id, ticket_theme)
+VALUES (1, 'aurora')
+ON CONFLICT (id) DO NOTHING;

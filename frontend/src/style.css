@@ -1073,10 +1073,320 @@ textarea {
   gap: 14px;
 }
 
-.success-shell,
-.screen-shell {
+
+.ticket-page-shell {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  min-height: calc(100vh - 180px);
+  justify-content: center;
+}
+
+.ticket-page-actions {
+  justify-content: center;
+}
+
+.ticket-theme {
+  width: min(100%, 980px);
+  margin: 0 auto;
+}
+
+.ticket-theme h1 {
+  font-size: clamp(36px, 5vw, 64px);
+  line-height: 1.05;
+}
+
+.ticket-kicker {
+  font-size: 12px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.ticket-copy {
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+.ticket-theme-aurora .aurora-card {
+  position: relative;
+  overflow: hidden;
+  padding: 40px;
+  border-radius: 36px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: radial-gradient(circle at top left, rgba(110, 217, 255, 0.28), transparent 30%), radial-gradient(circle at top right, rgba(193, 141, 255, 0.28), transparent 34%), rgba(10, 16, 32, 0.9);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.35);
+}
+
+.aurora-orb {
+  position: absolute;
+  width: 240px;
+  height: 240px;
+  border-radius: 999px;
+  filter: blur(18px);
+  opacity: 0.6;
+}
+
+.aurora-orb-left {
+  left: -60px;
+  top: -80px;
+  background: rgba(96, 217, 255, 0.5);
+}
+
+.aurora-orb-right {
+  right: -60px;
+  bottom: -80px;
+  background: rgba(193, 141, 255, 0.46);
+}
+
+.aurora-head,
+.blueprint-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.aurora-chip,
+.blueprint-code {
+  padding: 10px 16px;
+  border-radius: 999px;
+  font-size: 13px;
+  letter-spacing: 0.16em;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.aurora-number,
+.festival-number,
+.blueprint-number,
+.minimal-number {
+  margin: 28px 0;
+  font-size: clamp(42px, 8vw, 86px);
+  letter-spacing: 0.1em;
+  font-weight: 800;
+}
+
+.aurora-grid,
+.blueprint-specs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+}
+
+.aurora-grid article,
+.blueprint-specs article {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 18px;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.ticket-theme-retro .retro-board {
+  position: relative;
+  padding: 44px;
+  border-radius: 28px;
+  background: linear-gradient(180deg, #f6e3b2, #e6c47a);
+  color: #3e2500;
+  box-shadow: 0 28px 60px rgba(29, 18, 5, 0.4);
+  border: 2px solid rgba(88, 48, 0, 0.35);
+}
+
+.retro-stamp {
+  position: absolute;
+  right: 28px;
+  top: 24px;
+  transform: rotate(14deg);
+  border: 3px solid rgba(141, 34, 23, 0.7);
+  color: rgba(141, 34, 23, 0.8);
+  padding: 10px 18px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+}
+
+.retro-divider {
+  height: 1px;
+  margin: 26px 0;
+  border-top: 3px dashed rgba(91, 54, 8, 0.6);
+}
+
+.retro-number-block {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.retro-number-block strong {
+  font-size: clamp(38px, 7vw, 74px);
+  letter-spacing: 0.12em;
+}
+
+.retro-meta {
+  margin-top: 28px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-size: 14px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.ticket-theme-minimal .minimal-frame {
+  padding: 52px;
+  background: #ffffff;
+  color: #101113;
+  border-radius: 8px;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.16);
+}
+
+.minimal-topline {
+  width: 92px;
+  height: 6px;
+  margin-bottom: 24px;
+  background: #101113;
+}
+
+.minimal-number {
+  border-top: 1px solid rgba(16, 17, 19, 0.16);
+  border-bottom: 1px solid rgba(16, 17, 19, 0.16);
+  padding: 20px 0;
+}
+
+.minimal-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  color: rgba(16, 17, 19, 0.6);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 12px;
+}
+
+.ticket-theme-festival .festival-shell {
+  overflow: hidden;
+  border-radius: 40px;
+  background: linear-gradient(135deg, #ff4d6d, #7a4dff 50%, #1ec8ff);
+  box-shadow: 0 30px 90px rgba(64, 18, 122, 0.45);
+}
+
+.festival-ribbons {
+  display: flex;
+  gap: 14px;
+  padding: 22px 28px 0;
+}
+
+.festival-ribbons span {
+  height: 16px;
+  flex: 1;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.45);
+}
+
+.festival-main {
+  padding: 36px;
+}
+
+.festival-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.festival-tags span {
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(12px);
+}
+
+.ticket-theme-blueprint .blueprint-card {
+  position: relative;
+  overflow: hidden;
+  padding: 40px;
+  border: 1px solid rgba(145, 211, 255, 0.35);
+  border-radius: 24px;
+  background: #09213d;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.03), 0 24px 70px rgba(3, 12, 24, 0.5);
+}
+
+.blueprint-grid {
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(rgba(145, 211, 255, 0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(145, 211, 255, 0.08) 1px, transparent 1px);
+  background-size: 28px 28px;
+  pointer-events: none;
+}
+
+.blueprint-card > *:not(.blueprint-grid) {
+  position: relative;
+}
+
+.blueprint-code {
+  color: #9cd7ff;
+}
+
+.blueprint-specs {
+  margin-top: 24px;
+}
+
+.theme-settings-card {
+  padding: 28px;
+}
+
+.theme-option-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+}
+
+.theme-option-card {
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.theme-option-card-active {
+  border-color: rgba(96, 217, 255, 0.8);
+  box-shadow: 0 0 0 1px rgba(96, 217, 255, 0.45) inset;
+}
+
+.theme-option-preview {
+  height: 90px;
+  border-radius: 16px;
+}
+
+.theme-preview-aurora {
+  background: radial-gradient(circle at top left, #60d9ff, transparent 30%), radial-gradient(circle at bottom right, #c18dff, transparent 35%), #0b1327;
+}
+
+.theme-preview-retro {
+  background: linear-gradient(180deg, #f6e3b2, #e6c47a);
+}
+
+.theme-preview-minimal {
+  background: linear-gradient(180deg, #ffffff, #f1f1f1);
+}
+
+.theme-preview-festival {
+  background: linear-gradient(135deg, #ff4d6d, #7a4dff 50%, #1ec8ff);
+}
+
+.theme-preview-blueprint {
+  background: linear-gradient(180deg, #0a2442, #0f3a69);
+}
+
+.theme-settings-footer {
+  margin-top: 22px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  gap: 16px;
 }
 
 .success-card,
@@ -1229,5 +1539,25 @@ textarea {
 
   .ticket-meta-block strong {
     font-size: 18px;
+  }
+
+  .ticket-theme {
+    width: 100%;
+  }
+
+  .aurora-head,
+  .blueprint-header,
+  .minimal-footer,
+  .theme-settings-footer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .ticket-theme-aurora .aurora-card,
+  .ticket-theme-retro .retro-board,
+  .ticket-theme-minimal .minimal-frame,
+  .ticket-theme-festival .festival-main,
+  .ticket-theme-blueprint .blueprint-card {
+    padding: 28px;
   }
 }

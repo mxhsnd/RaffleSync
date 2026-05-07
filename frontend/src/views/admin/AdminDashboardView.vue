@@ -20,11 +20,41 @@
         <p class="muted">兑奖页会根据中奖编号查询中奖人与奖项信息，并支持一键确认兑奖。</p>
       </article>
     </section>
+
+    <section class="glass-card theme-settings-card">
+      <div class="section-heading">
+        <span class="kicker">Ticket Themes</span>
+        <h2>票据样式切换</h2>
+        <p class="muted">选择 5 套完全不同的票据风格之一，前台成功页和查询页会立即使用当前主题。</p>
+      </div>
+
+      <div class="theme-option-grid">
+        <button
+          v-for="option in themeOptions"
+          :key="option.value"
+          type="button"
+          class="theme-option-card"
+          :class="{ 'theme-option-card-active': selectedTheme === option.value }"
+          @click="selectedTheme = option.value"
+        >
+          <div class="theme-option-preview" :class="`theme-preview-${option.value}`"></div>
+          <strong>{{ option.label }}</strong>
+          <span class="muted">{{ option.description }}</span>
+        </button>
+      </div>
+
+      <div class="theme-settings-footer">
+        <p class="muted">当前生效主题：{{ currentThemeLabel }}</p>
+        <button class="primary-btn" :disabled="saving" @click="saveTheme">
+          {{ saving ? '保存中...' : '保存票据样式' }}
+        </button>
+      </div>
+    </section>
   </AdminShell>
 </template>
 
 <script setup>
-import { onMounted, reactive } from 'vue'
+import { computed, onMounted, reactive, ref } from 'vue'
 import api from '../../api'
 import AdminShell from '../../components/AdminShell.vue'
 import MetricCard from '../../components/MetricCard.vue'
@@ -36,8 +66,42 @@ const stats = reactive({
   claimed: 0,
 })
 
-onMounted(async () => {
+const themeOptions = [
+  { value: 'aurora', label: 'Aurora', description: '极光玻璃与光晕卡片' },
+  { value: 'retro', label: 'Retro', description: '复古纸票与印章感' },
+  { value: 'minimal', label: 'Minimal', description: '极简展板与留白' },
+  { value: 'festival', label: 'Festival', description: '庆典彩带与高饱和色' },
+  { value: 'blueprint', label: 'Blueprint', description: '蓝图网格与技术图纸感' },
+]
+
+const selectedTheme = ref('aurora')
+const saving = ref(false)
+
+const currentThemeLabel = computed(() => {
+  return themeOptions.find((option) => option.value === selectedTheme.value)?.label || 'Aurora'
+})
+
+async function loadDashboard() {
   const { data } = await api.get('/admin/dashboard')
   Object.assign(stats, data)
+}
+
+async function loadSettings() {
+  const { data } = await api.get('/admin/settings')
+  selectedTheme.value = data.ticketTheme || 'aurora'
+}
+
+async function saveTheme() {
+  saving.value = true
+  try {
+    const { data } = await api.put('/admin/settings', { ticketTheme: selectedTheme.value })
+    selectedTheme.value = data.ticketTheme
+  } finally {
+    saving.value = false
+  }
+}
+
+onMounted(async () => {
+  await Promise.all([loadDashboard(), loadSettings()])
 })
 </script>
