@@ -1,0 +1,28 @@
+CREATE TABLE IF NOT EXISTS participants (
+  id SERIAL PRIMARY KEY,
+  raffle_no VARCHAR(20) UNIQUE NOT NULL,
+  nickname VARCHAR(60) NOT NULL,
+  student_no VARCHAR(40) UNIQUE NOT NULL,
+  real_name VARCHAR(60) NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS prizes (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(80) NOT NULL,
+  quantity INTEGER NOT NULL CHECK (quantity > 0),
+  description TEXT DEFAULT '',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS winner_records (
+  id SERIAL PRIMARY KEY,
+  participant_id INTEGER NOT NULL REFERENCES participants(id) ON DELETE CASCADE,
+  prize_id INTEGER NOT NULL REFERENCES prizes(id) ON DELETE CASCADE,
+  raffle_no VARCHAR(20) NOT NULL,
+  nickname VARCHAR(60) NOT NULL,
+  claimed BOOLEAN DEFAULT FALSE,
+  claimed_at TIMESTAMP NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE (participant_id, prize_id)
+);
