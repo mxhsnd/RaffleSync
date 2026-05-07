@@ -45,6 +45,26 @@ export async function registerParticipant(req, res) {
   })
 }
 
+export async function lookupParticipantByStudentNo(req, res) {
+  const studentNo = req.body.studentNo?.trim()
+
+  if (!studentNo) {
+    return res.status(400).json({ message: '请输入学号' })
+  }
+
+  const result = await query('SELECT raffle_no, student_no FROM participants WHERE student_no = $1', [studentNo])
+
+  if (result.rowCount === 0) {
+    return res.status(404).json({ message: '该学号暂未参与抽奖，请先完成报名。' })
+  }
+
+  res.json({
+    message: '查询成功',
+    raffleNo: result.rows[0].raffle_no,
+    studentNo: result.rows[0].student_no,
+  })
+}
+
 export async function listParticipants(req, res) {
   const result = await query(
     'SELECT id, raffle_no, student_no, created_at FROM participants ORDER BY id DESC',

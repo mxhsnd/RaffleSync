@@ -1,7 +1,7 @@
 import express from 'express'
 import cors from 'cors'
 import { login } from './modules/auth/controller.js'
-import { getActivity, listParticipants, registerParticipant } from './modules/participants/controller.js'
+import { getActivity, listParticipants, lookupParticipantByStudentNo, registerParticipant } from './modules/participants/controller.js'
 import { createPrize, listPrizes } from './modules/prizes/controller.js'
 import { drawWinners, listWinners } from './modules/draws/controller.js'
 import { verifyClaim, confirmClaim } from './modules/claims/controller.js'
@@ -17,6 +17,7 @@ export function createApp() {
   app.get('/api/health', (req, res) => res.json({ ok: true }))
   app.get('/api/public/activity', getActivity)
   app.post('/api/public/register', registerParticipant)
+  app.post('/api/public/lookup', lookupParticipantByStudentNo)
   app.post('/api/auth/login', login)
 
   app.get('/api/admin/dashboard', requireAuth, getDashboard)

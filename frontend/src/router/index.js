@@ -3,6 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 const routes = [
   { path: '/', name: 'register', component: () => import('../views/RegisterView.vue') },
   { path: '/success', name: 'success', component: () => import('../views/SuccessView.vue') },
+  { path: '/lookup-result', name: 'lookup-result', component: () => import('../views/LookupResultView.vue') },
   { path: '/screen', name: 'screen', component: () => import('../views/LotteryScreenView.vue') },
   { path: '/admin/login', name: 'admin-login', component: () => import('../views/admin/AdminLoginView.vue') },
   { path: '/admin', name: 'admin-dashboard', component: () => import('../views/admin/AdminDashboardView.vue') },
@@ -18,7 +19,7 @@ const router = createRouter({
 })
 
 router.beforeEach((to) => {
-  const publicNames = ['register', 'success', 'screen', 'admin-login']
+  const publicNames = ['register', 'success', 'lookup-result', 'screen', 'admin-login']
   const token = localStorage.getItem('raffle-admin-token')
   if (!publicNames.includes(to.name) && !token) {
     return '/admin/login'
