@@ -16,6 +16,12 @@
                 <div class="ticket-badge">Entry Pass</div>
               </div>
 
+              <div class="ticket-paper-meta">
+                <span>Venue: RaffleSync Hall</span>
+                <span>Session 07</span>
+                <span>Gate A</span>
+              </div>
+
               <div class="ticket-serial-row">
                 <div class="ticket-serial-labels">
                   <span>Session 07</span>
