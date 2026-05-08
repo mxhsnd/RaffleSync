@@ -1,6 +1,6 @@
 services:
   postgres:
-    image: postgres:16-alpine
+    image: docker.m.daocloud.io/library/postgres:14
     container_name: rafflesync-postgres
     restart: unless-stopped
     environment:
@@ -8,7 +8,7 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     ports:
-      - "5432:5432"
+      - "55432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./backend/sql/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
@@ -27,19 +27,21 @@ services:
     depends_on:
       - postgres
     ports:
-      - "3000:3000"
+      - "13000:3000"
 
   frontend:
     build:
       context: ./frontend
       args:
-        VITE_API_BASE_URL: http://localhost:3000/api
+        VITE_API_BASE_URL: /api
     container_name: rafflesync-frontend
     restart: unless-stopped
     depends_on:
       - backend
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     ports:
-      - "8080:80"
+      - "18080:80"
 
 volumes:
   postgres_data:

@@ -10,6 +10,7 @@
 - 兑奖核验
 - PostgreSQL 持久化
 - Docker 一键部署
+- 后台切换 5 套票据样式
 
 ## 默认账号
 - 用户名：`admin`
@@ -48,18 +49,44 @@ npm run dev --prefix frontend
 docker compose up --build -d
 ```
 
-启动后：
-- 前端：`http://localhost:8080`
-- 后端：`http://localhost:3000`
-- PostgreSQL：`localhost:5432`
+当前仓库里的 Docker 配置使用了可访问镜像源和避免本机端口冲突的映射：
+- 前端：`http://localhost:18080`
+- 后端：`http://localhost:13000`
+- PostgreSQL：`localhost:55432`
 
 抽奖大屏：
-- `http://localhost:8080/screen`
+- `http://localhost:18080/screen`
 
 后台：
-- `http://localhost:8080/admin/login`
+- `http://localhost:18080/admin/login`
+
+## Tailscale Funnel
+如果要把前端公开到互联网，可在部署机器上执行：
+
+```bash
+tailscale funnel 18080
+```
+
+示例访问地址：
+- 首页：`https://<your-device>.tail*.ts.net/`
+- 后台：`https://<your-device>.tail*.ts.net/admin/login`
+
+前端已配置为通过同域 `/api` 访问后端，适合通过 Funnel 直接在手机端报名与查询。
+
+## 票据样式切换
+后台总览页支持切换 5 套完全不同的票据展示风格：
+- Aurora
+- Retro
+- Minimal
+- Festival
+- Blueprint
+
+切换后会同步影响：
+- 报名成功页
+- 查询抽奖编号结果页
 
 ## 说明
 - PostgreSQL 首次启动时会自动执行 `backend/sql/schema.sql`
-- 前端构建时默认访问 `http://localhost:3000/api`
-- 如部署到服务器，请把 `docker-compose.yml` 中前端构建参数和后端环境变量改成你的实际域名或内网地址
+- 前端默认通过 `/api` 访问后端；本地开发环境可继续使用 `http://localhost:3000/api`
+- 手机端输入框已调整为不触发 iPhone/Safari 聚焦自动放大
+- 如部署到服务器，请按你的实际端口、域名或反向代理配置调整 `docker-compose.yml`
