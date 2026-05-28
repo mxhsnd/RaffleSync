@@ -1,9 +1,9 @@
 const colleges = [
-  { name: '软件（人工智能）学院', shortName: '软件学院', classPrefix: '软件24' },
-  { name: '安全科学与工程学院', shortName: '安全学院', classPrefix: '安全24' },
-  { name: '计算机科学与技术学院', shortName: '计算机学院', classPrefix: '计科24' },
-  { name: '数字媒体与设计学院', shortName: '数媒学院', classPrefix: '数媒24' },
-  { name: '电子信息工程学院', shortName: '电信学院', classPrefix: '电信24' }
+  { name: '安全科学与工程学院（应急管理学院）', shortName: '安全科学与工程学院', classPrefix: '安全24' },
+  { name: '工商管理学院', shortName: '工商管理学院', classPrefix: '工商24' },
+  { name: '电气与控制工程学院', shortName: '电气与控制工程学院', classPrefix: '电气24' },
+  { name: '电子与信息工程学院', shortName: '电子与信息工程学院', classPrefix: '电信24' },
+  { name: '软件学院（人工智能学院）', shortName: '软件学院', classPrefix: '软件24' }
 ];
 
 const familyNames = ['赵', '钱', '孙', '李', '周', '吴', '郑', '王', '冯', '陈', '刘', '杨', '黄', '林', '马', '高', '胡', '郭', '何', '罗'];

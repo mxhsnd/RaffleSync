@@ -92,7 +92,7 @@ function drawDean(college) {
   updateDeanControls();
   updateStatus(`${college} 抽中：${winner.name}`);
   send({ action: 'START_ROLL_DEAN', college });
-  window.setTimeout(() => send({ action: 'STOP_ROLL_DEAN', college, winner }), 900);
+  window.setTimeout(() => send({ action: 'STOP_ROLL_DEAN', college, winner }), 3000);
 }
 
 function rerollDean(college) {

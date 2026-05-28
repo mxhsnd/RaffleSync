@@ -1,4 +1,5 @@
 const channel = new BroadcastChannel('raffle-sync');
+const introScene = document.querySelector('#introScene');
 const roundTitle = document.querySelector('#roundTitle');
 const roundSubtitle = document.querySelector('#roundSubtitle');
 const normalDisplay = document.querySelector('#normalDisplay');
@@ -16,9 +17,15 @@ function randomStudent() {
   return studentData[Math.floor(Math.random() * studentData.length)];
 }
 
+function enterRaffleScene() {
+  document.body.classList.add('raffle-active');
+  introScene.setAttribute('aria-hidden', 'true');
+}
+
 function showRound(round, roundLabel) {
-  roundTitle.textContent = roundLabel || '毕业晚会幸运抽奖';
-  roundSubtitle.textContent = round === 'DEAN_DRAW' ? '五大学院轮流揭晓纪念品获得者' : '幸运名单即将揭晓';
+  enterRaffleScene();
+  roundTitle.textContent = roundLabel || '';
+  roundSubtitle.textContent = round === 'DEAN_DRAW' ? '五大学院纪念品抽取' : '等待控制台开始抽取';
   normalDisplay.classList.toggle('hidden', round === 'DEAN_DRAW');
   normalDisplay.classList.toggle('flex', round !== 'DEAN_DRAW');
   deanDisplay.classList.toggle('hidden', round !== 'DEAN_DRAW');
@@ -58,16 +65,16 @@ function renderNormalWinners(winners) {
 
 function renderDeanCards() {
   deanCards.innerHTML = colleges.map((college) => `
-    <article data-college-card="${college.name}" class="glass-card fade-shift min-h-80 p-5 text-center flex flex-col justify-between">
-      <div>
+    <article data-college-card="${college.name}" class="dean-card glass-card fade-shift grid min-h-80 grid-rows-[7.5rem_1fr_3.25rem] p-5 text-center">
+      <div class="flex flex-col items-center justify-start">
         <p class="text-xs uppercase tracking-[0.3em] text-cyan-100/60">College Prize</p>
-        <h2 class="mt-3 text-2xl font-black glow-text">${college.shortName}</h2>
+        <h2 class="mt-3 flex min-h-16 items-center justify-center text-2xl font-black leading-tight glow-text">${college.shortName}</h2>
       </div>
-      <div class="py-8">
+      <div class="flex flex-col items-center justify-center">
         <p data-dean-name="${college.name}" class="text-4xl font-black text-white/60">待揭晓</p>
         <p data-dean-meta="${college.name}" class="mt-3 text-sm text-white/45">等待控制台抽取</p>
       </div>
-      <p class="text-xs text-white/40">${college.name}</p>
+      <p class="flex items-end justify-center text-xs leading-tight text-white/40">${college.name}</p>
     </article>
   `).join('');
 }
@@ -77,6 +84,8 @@ function setDeanRolling(college) {
   const name = deanCards.querySelector(`[data-dean-name="${college}"]`);
   const meta = deanCards.querySelector(`[data-dean-meta="${college}"]`);
   if (!card || !name || !meta) return;
+  card.classList.remove('dean-card-drawn');
+  name.classList.remove('dean-winner-name');
   card.classList.add('dean-card-active');
   meta.textContent = '正在高速滚动';
   if (displayState.deanTimers.has(college)) {
@@ -99,9 +108,14 @@ function stopDeanRolling(college, winner) {
   }
   if (!card || !name || !meta) return;
   card.classList.remove('dean-card-active');
+  card.classList.add('dean-card-drawn');
+  name.style.animation = 'none';
   name.textContent = winner.name;
-  name.classList.add('gold-text');
   meta.textContent = `${winner.className} · ${winner.studentId}`;
+  window.requestAnimationFrame(() => {
+    name.style.animation = '';
+    name.classList.add('gold-text', 'dean-winner-name');
+  });
 }
 
 function handleMessage(message) {
@@ -129,5 +143,4 @@ function handleMessage(message) {
 }
 
 renderDeanCards();
-showRound('NORMAL_A', '常规抽奖 A');
 channel.addEventListener('message', (event) => handleMessage(event.data));

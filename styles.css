@@ -3,6 +3,13 @@
   --cyan: #38bdf8;
   --violet: #a855f7;
   --gold: #fbbf24;
+  --serif-display: 'Hannotate SC', 'Wawati SC', 'STXingkai', 'Yuanti SC', 'PingFang SC', sans-serif;
+}
+
+@property --angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
 }
 
 * {
@@ -13,26 +20,192 @@ body {
   min-height: 100vh;
   margin: 0;
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  background:
-    radial-gradient(circle at top left, rgba(56, 189, 248, 0.28), transparent 32rem),
-    radial-gradient(circle at bottom right, rgba(168, 85, 247, 0.28), transparent 34rem),
-    linear-gradient(rgba(2, 6, 23, 0.7), rgba(2, 6, 23, 0.88)),
-    url('background.png') center / cover fixed,
-    #020617;
+  background: #020617;
   color: white;
   overflow-x: hidden;
 }
 
+.stage-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -3;
+  background-image: url('1587.png');
+  background-size: cover;
+  background-position: center bottom;
+  transform: scale(1.02);
+  transition: background-position 2200ms cubic-bezier(0.22, 1, 0.36, 1), transform 2200ms cubic-bezier(0.22, 1, 0.36, 1), filter 2200ms ease;
+}
+
+body.raffle-active .stage-bg {
+  background-position: center top;
+  transform: scale(1);
+  filter: saturate(1.08) brightness(1.04);
+}
+
+.stage-vignette {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  background:
+    radial-gradient(ellipse at 50% 12%, rgba(255, 232, 160, 0.2), transparent 24rem),
+    radial-gradient(circle at 28% 18%, rgba(56, 189, 248, 0.16), transparent 24rem),
+    radial-gradient(circle at 50% 88%, rgba(251, 191, 36, 0.16), transparent 28rem),
+    linear-gradient(180deg, rgba(2, 6, 23, 0.04), rgba(2, 6, 23, 0.58));
+  pointer-events: none;
+  transition: background 1800ms ease;
+}
+
+body.raffle-active .stage-vignette {
+  background:
+    radial-gradient(circle at 28% 18%, rgba(56, 189, 248, 0.3), transparent 32rem),
+    radial-gradient(circle at 78% 24%, rgba(168, 85, 247, 0.22), transparent 30rem),
+    linear-gradient(180deg, rgba(2, 6, 23, 0.28), rgba(2, 6, 23, 0.66));
+}
+
+.display-stage {
+  isolation: isolate;
+}
+
+.intro-scene {
+  position: relative;
+  transition: opacity 1200ms ease, transform 1600ms cubic-bezier(0.22, 1, 0.36, 1), filter 1200ms ease;
+}
+
+body.raffle-active .intro-scene {
+  opacity: 0;
+  transform: translateY(42px) scale(0.98);
+  filter: blur(8px);
+  pointer-events: none;
+}
+
+.intro-content {
+  position: relative;
+  z-index: 2;
+  padding: 1.4rem 3.2rem 1.7rem;
+  border: 1px solid rgba(255, 236, 178, 0.3);
+  border-radius: 999px;
+  background: linear-gradient(100deg, rgba(8, 20, 42, 0.24), rgba(255, 255, 255, 0.08), rgba(8, 20, 42, 0.2));
+  box-shadow: 0 0 34px rgba(255, 209, 102, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(8px);
+}
+
+.intro-content::before,
+.intro-content::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 8rem;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 236, 178, 0.82));
+}
+
+.intro-content::before {
+  right: calc(100% + 1rem);
+}
+
+.intro-content::after {
+  left: calc(100% + 1rem);
+  transform: rotate(180deg);
+}
+
+.intro-title {
+  margin: 0;
+  font-family: var(--serif-display);
+  font-size: clamp(2.35rem, 5vw, 5.45rem);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: 0.12em;
+  text-indent: 0.12em;
+  color: transparent;
+  background: linear-gradient(180deg, #fff8db 0%, #ffd76d 42%, #ffb340 58%, #fff0b7 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.52);
+  text-shadow: 0 0 12px rgba(255, 244, 214, 0.82), 0 0 34px rgba(251, 191, 36, 0.7), 0 0 78px rgba(56, 189, 248, 0.38), 0 14px 42px rgba(0, 0, 0, 0.62);
+  transform: skewX(-4deg);
+}
+
+.intro-aura {
+  position: absolute;
+  top: 2.8rem;
+  left: 50%;
+  width: min(64vw, 58rem);
+  height: 12rem;
+  border-radius: 999px;
+  background: radial-gradient(ellipse, rgba(255, 221, 133, 0.24), rgba(56, 189, 248, 0.1) 42%, transparent 72%);
+  filter: blur(18px);
+  transform: translateX(-50%);
+}
+
+.particle-field {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.particle-field span {
+  position: absolute;
+  width: 0.42rem;
+  height: 0.42rem;
+  border-radius: 999px;
+  background: rgba(255, 238, 183, 0.95);
+  box-shadow: 0 0 12px rgba(255, 226, 141, 0.9), 0 0 28px rgba(56, 189, 248, 0.36);
+  animation: particleDrift var(--duration, 5600ms) linear infinite;
+  animation-delay: var(--delay, 0ms);
+  opacity: 0;
+}
+
+.particle-field span:nth-child(1) { left: 8%; top: 12%; --duration: 5200ms; --delay: 0ms; }
+.particle-field span:nth-child(2) { left: 18%; top: 26%; --duration: 6200ms; --delay: 800ms; }
+.particle-field span:nth-child(3) { left: 29%; top: 9%; --duration: 5800ms; --delay: 1400ms; }
+.particle-field span:nth-child(4) { left: 40%; top: 22%; --duration: 7200ms; --delay: 300ms; }
+.particle-field span:nth-child(5) { left: 52%; top: 11%; --duration: 6500ms; --delay: 1100ms; }
+.particle-field span:nth-child(6) { left: 62%; top: 29%; --duration: 5900ms; --delay: 1800ms; }
+.particle-field span:nth-child(7) { left: 73%; top: 13%; --duration: 6900ms; --delay: 500ms; }
+.particle-field span:nth-child(8) { left: 84%; top: 25%; --duration: 5400ms; --delay: 1500ms; }
+.particle-field span:nth-child(9) { left: 91%; top: 8%; --duration: 7600ms; --delay: 2200ms; }
+.particle-field span:nth-child(10) { left: 34%; top: 34%; --duration: 6100ms; --delay: 2600ms; }
+.particle-field span:nth-child(11) { left: 57%; top: 38%; --duration: 7000ms; --delay: 2100ms; }
+.particle-field span:nth-child(12) { left: 78%; top: 36%; --duration: 6300ms; --delay: 3200ms; }
+
+.raffle-scene {
+  transform: translateY(56px) scale(0.98);
+  filter: blur(10px);
+  transition: opacity 1100ms ease 760ms, transform 1300ms cubic-bezier(0.22, 1, 0.36, 1) 760ms, filter 1300ms ease 760ms;
+}
+
+body.raffle-active .raffle-scene {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  filter: blur(0);
+  pointer-events: auto;
+}
+
+.raffle-header {
+  transform: translateY(-24px);
+  opacity: 0;
+  transition: opacity 900ms ease 1180ms, transform 1100ms cubic-bezier(0.22, 1, 0.36, 1) 1180ms;
+}
+
+body.raffle-active .raffle-header {
+  transform: translateY(0);
+  opacity: 1;
+}
+
 .glass-card {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 1.25rem;
-  box-shadow: 0 24px 80px rgba(15, 23, 42, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.14);
+  background: linear-gradient(145deg, rgba(8, 18, 40, 0.46), rgba(255, 255, 255, 0.09));
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 1.35rem;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.14);
   backdrop-filter: blur(18px);
 }
 
 .glow-text {
-  text-shadow: 0 0 14px rgba(56, 189, 248, 0.75), 0 0 34px rgba(168, 85, 247, 0.45);
+  font-family: var(--serif-display);
+  letter-spacing: 0.08em;
+  color: #fff3c4;
+  text-shadow: 0 0 14px rgba(255, 223, 134, 0.75), 0 0 34px rgba(56, 189, 248, 0.45), 0 8px 26px rgba(0, 0, 0, 0.45);
 }
 
 .gold-text {
@@ -68,13 +241,165 @@ body {
   animation: popIn 520ms cubic-bezier(0.2, 1.4, 0.3, 1) both;
 }
 
+.dean-card {
+  position: relative;
+  overflow: hidden;
+  transition: transform 520ms cubic-bezier(0.22, 1, 0.36, 1), border-color 520ms ease, box-shadow 520ms ease, background 520ms ease;
+}
+
+.dean-card::before,
+.dean-card::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 520ms ease;
+}
+
+.dean-card::before {
+  border-radius: inherit;
+  background: conic-gradient(from var(--angle, 0deg), transparent 0deg, rgba(56, 189, 248, 0.18) 72deg, rgba(255, 214, 102, 0.88) 132deg, rgba(168, 85, 247, 0.42) 184deg, transparent 260deg);
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  -webkit-mask-composite: xor;
+  padding: 2px;
+}
+
+.dean-card::after {
+  width: 34%;
+  inset: -30% auto -30% -58%;
+  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.08), rgba(255, 214, 102, 0.05), transparent);
+  transform: skewX(-18deg);
+}
+
 .dean-card-active {
-  border-color: rgba(251, 191, 36, 0.8);
-  box-shadow: 0 0 42px rgba(251, 191, 36, 0.24), 0 0 70px rgba(168, 85, 247, 0.2);
+  transform: translateY(-8px) scale(1.025);
+  border-color: rgba(251, 191, 36, 0.9);
+  background: linear-gradient(145deg, rgba(18, 28, 52, 0.62), rgba(255, 214, 102, 0.12));
+  box-shadow: 0 0 0 1px rgba(255, 214, 102, 0.36), 0 0 42px rgba(251, 191, 36, 0.34), 0 0 86px rgba(168, 85, 247, 0.24), inset 0 0 34px rgba(255, 255, 255, 0.08);
+}
+
+.dean-card-active::before {
+  opacity: 1;
+  animation: borderOrbit 1400ms linear infinite;
+}
+
+.dean-card-active::after {
+  opacity: 0.22;
+  animation: cardSweep 2200ms ease-in-out infinite;
+}
+
+.dean-card-drawn {
+  border-color: rgba(255, 236, 178, 0.92);
+  background: linear-gradient(145deg, rgba(28, 23, 44, 0.66), rgba(255, 214, 102, 0.16), rgba(56, 189, 248, 0.1));
+  box-shadow: 0 0 0 1px rgba(255, 236, 178, 0.42), 0 0 46px rgba(251, 191, 36, 0.34), 0 0 94px rgba(56, 189, 248, 0.24), inset 0 0 42px rgba(255, 244, 214, 0.08);
+}
+
+.dean-card-drawn::before {
+  opacity: 0.9;
+  animation: borderOrbit 5200ms linear infinite;
+}
+
+.dean-card-drawn::after {
+  opacity: 0.12;
+  animation: cardSweep 5200ms ease-in-out infinite;
+}
+
+[data-dean-name] {
+  transition: opacity 900ms ease, transform 900ms cubic-bezier(0.16, 1, 0.3, 1), text-shadow 1200ms ease, filter 1200ms ease;
+}
+
+.dean-winner-name {
+  position: relative;
+  display: inline-block;
+  font-family: var(--serif-display);
+  font-size: clamp(2.6rem, 3.8vw, 4.4rem);
+  letter-spacing: 0.08em;
+  color: transparent;
+  background: linear-gradient(180deg, #fffdf2 0%, #ffe08a 42%, #ffbf3f 68%, #fff2b7 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.34);
+  text-shadow: 0 0 8px rgba(255, 244, 214, 0.58), 0 0 22px rgba(251, 191, 36, 0.52), 0 0 46px rgba(56, 189, 248, 0.28), 0 10px 26px rgba(0, 0, 0, 0.5);
+  animation: winnerReveal 1500ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.dean-card-active [data-dean-name] {
+  animation: rollingFlash 520ms ease-in-out infinite alternate;
 }
 
 .fade-shift {
   transition: opacity 260ms ease, transform 260ms ease;
+}
+
+@keyframes particleDrift {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 28px, 0) scale(0.55);
+  }
+  18% {
+    opacity: 0.88;
+  }
+  72% {
+    opacity: 0.68;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(22px, -92px, 0) scale(1.2);
+  }
+}
+
+@keyframes borderOrbit {
+  from {
+    --angle: 0deg;
+  }
+  to {
+    --angle: 360deg;
+  }
+}
+
+@keyframes cardSweep {
+  0% {
+    transform: translateX(0) skewX(-18deg);
+  }
+  52%, 100% {
+    transform: translateX(420%) skewX(-18deg);
+  }
+}
+
+@keyframes rollingFlash {
+  from {
+    opacity: 0.72;
+    transform: scale(0.995);
+    text-shadow: 0 0 12px rgba(56, 189, 248, 0.54);
+  }
+  to {
+    opacity: 0.96;
+    transform: scale(1.018);
+    text-shadow: 0 0 18px rgba(255, 214, 102, 0.58), 0 0 30px rgba(56, 189, 248, 0.42);
+  }
+}
+
+@keyframes winnerReveal {
+  from {
+    opacity: 0.78;
+    transform: translateY(4px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes winnerGlow {
+  0%, 100% {
+    filter: drop-shadow(0 0 4px rgba(255, 244, 214, 0.42));
+  }
+  50% {
+    filter: drop-shadow(0 0 8px rgba(251, 191, 36, 0.58));
+  }
 }
 
 @keyframes pulseName {
