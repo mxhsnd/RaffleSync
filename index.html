@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RaffleSync 大屏展示</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="min-h-screen overflow-hidden">
+  <main class="relative flex min-h-screen flex-col p-8">
+    <header class="glass-card fade-shift p-6 text-center">
+      <p class="text-sm uppercase tracking-[0.55em] text-cyan-200/80">Graduation Party Raffle</p>
+      <h1 id="roundTitle" class="mt-3 text-6xl font-black glow-text">毕业晚会幸运抽奖</h1>
+      <p id="roundSubtitle" class="mt-3 text-xl text-white/70">请在控制台选择抽奖环节</p>
+    </header>
+
+    <section id="normalDisplay" class="flex flex-1 flex-col justify-center gap-8 py-8">
+      <div id="rollingGrid" class="grid grid-cols-2 gap-4 md:grid-cols-4 xl:grid-cols-6"></div>
+      <div id="winnerGrid" class="grid gap-5 md:grid-cols-3 xl:grid-cols-5"></div>
+    </section>
+
+    <section id="deanDisplay" class="hidden flex-1 items-center py-8">
+      <div id="deanCards" class="grid w-full gap-5 lg:grid-cols-5"></div>
+    </section>
+  </main>
+
+  <script src="data.js"></script>
+  <script src="display.js"></script>
+</body>
+</html>
