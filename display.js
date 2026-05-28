@@ -42,7 +42,7 @@ function clearNormalRolling() {
 function startNormalRolling(count) {
   clearNormalRolling();
   winnerGrid.innerHTML = '';
-  rollingGrid.innerHTML = Array.from({ length: Math.min(24, Math.max(12, count * 2)) }, () => '<div class="glass-card rolling-name p-4 text-center text-2xl font-black text-white/90">等待</div>').join('');
+  rollingGrid.innerHTML = Array.from({ length: Math.min(24, Math.max(12, count * 2)) }, () => '<div class="glass-card rolling-name display-name p-4 text-center text-2xl font-black text-white/90">等待</div>').join('');
   displayState.rollingTimer = window.setInterval(() => {
     rollingGrid.querySelectorAll('div').forEach((node) => {
       const student = randomStudent();
@@ -55,10 +55,10 @@ function renderNormalWinners(winners) {
   clearNormalRolling();
   rollingGrid.innerHTML = '';
   winnerGrid.innerHTML = winners.map((winner, index) => `
-    <article class="glass-card winner-card glow-border p-5 text-center" style="animation-delay: ${index * 80}ms">
-      <p class="text-3xl font-black glow-text">${winner.name}</p>
-      <p class="mt-2 text-sm text-cyan-100/85">${winner.college}</p>
-      <p class="mt-1 text-xs text-white/55">${winner.className} · ${winner.studentId}</p>
+    <article class="glass-card winner-card glow-border p-3 text-center" style="animation-delay: ${index * 70}ms">
+      <p class="text-2xl font-black glow-text">${winner.name}</p>
+      <p class="mt-1 text-xs text-cyan-100/85">${winner.college}</p>
+      <p class="mt-1 text-[0.68rem] text-white/55">${winner.className} · ${winner.studentId}</p>
     </article>
   `).join('');
 }
@@ -87,7 +87,7 @@ function setDeanRolling(college) {
   card.classList.remove('dean-card-drawn');
   name.classList.remove('dean-winner-name');
   card.classList.add('dean-card-active');
-  meta.textContent = '正在高速滚动';
+  meta.textContent = '';
   if (displayState.deanTimers.has(college)) {
     window.clearInterval(displayState.deanTimers.get(college));
   }

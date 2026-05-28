@@ -1,9 +1,15 @@
+@font-face {
+  font-family: 'DeYiHeiLocal';
+  src: url('fonts/SmileySans-Oblique.ttf') format('truetype');
+  font-display: swap;
+}
+
 :root {
   color-scheme: dark;
   --cyan: #38bdf8;
   --violet: #a855f7;
   --gold: #fbbf24;
-  --serif-display: 'Hannotate SC', 'Wawati SC', 'STXingkai', 'Yuanti SC', 'PingFang SC', sans-serif;
+  --display-font: 'DeYiHeiLocal', '得意黑', 'Smiley Sans', 'Hannotate SC', 'PingFang SC', sans-serif;
 }
 
 @property --angle {
@@ -81,47 +87,24 @@ body.raffle-active .intro-scene {
 .intro-content {
   position: relative;
   z-index: 2;
-  padding: 1.4rem 3.2rem 1.7rem;
-  border: 1px solid rgba(255, 236, 178, 0.3);
-  border-radius: 999px;
-  background: linear-gradient(100deg, rgba(8, 20, 42, 0.24), rgba(255, 255, 255, 0.08), rgba(8, 20, 42, 0.2));
-  box-shadow: 0 0 34px rgba(255, 209, 102, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.25);
-  backdrop-filter: blur(8px);
+  padding: 0;
 }
 
 .intro-content::before,
 .intro-content::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  width: 8rem;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255, 236, 178, 0.82));
-}
-
-.intro-content::before {
-  right: calc(100% + 1rem);
-}
-
-.intro-content::after {
-  left: calc(100% + 1rem);
-  transform: rotate(180deg);
+  content: none;
 }
 
 .intro-title {
   margin: 0;
-  font-family: var(--serif-display);
+  font-family: var(--display-font);
   font-size: clamp(2.35rem, 5vw, 5.45rem);
-  font-weight: 900;
+  font-weight: 700;
   line-height: 1;
   letter-spacing: 0.12em;
   text-indent: 0.12em;
-  color: transparent;
-  background: linear-gradient(180deg, #fff8db 0%, #ffd76d 42%, #ffb340 58%, #fff0b7 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.52);
-  text-shadow: 0 0 12px rgba(255, 244, 214, 0.82), 0 0 34px rgba(251, 191, 36, 0.7), 0 0 78px rgba(56, 189, 248, 0.38), 0 14px 42px rgba(0, 0, 0, 0.62);
+  color: #ffe8a3;
+  text-shadow: 0 0 18px rgba(251, 191, 36, 0.32), 0 10px 34px rgba(0, 0, 0, 0.5);
   transform: skewX(-4deg);
 }
 
@@ -202,7 +185,7 @@ body.raffle-active .raffle-header {
 }
 
 .glow-text {
-  font-family: var(--serif-display);
+  font-family: var(--display-font);
   letter-spacing: 0.08em;
   color: #fff3c4;
   text-shadow: 0 0 14px rgba(255, 223, 134, 0.75), 0 0 34px rgba(56, 189, 248, 0.45), 0 8px 26px rgba(0, 0, 0, 0.45);
@@ -231,6 +214,12 @@ body.raffle-active .raffle-header {
   opacity: 0.45;
   transform: none;
   box-shadow: none;
+}
+
+.display-name,
+.rolling-name {
+  font-family: var(--display-font);
+  letter-spacing: 0.06em;
 }
 
 .rolling-name {
@@ -314,16 +303,17 @@ body.raffle-active .raffle-header {
 .dean-winner-name {
   position: relative;
   display: inline-block;
-  font-family: var(--serif-display);
-  font-size: clamp(2.6rem, 3.8vw, 4.4rem);
-  letter-spacing: 0.08em;
+  font-family: var(--display-font);
+  font-size: clamp(2.9rem, 4.3vw, 5rem);
+  font-weight: 500;
+  letter-spacing: 0.1em;
   color: transparent;
   background: linear-gradient(180deg, #fffdf2 0%, #ffe08a 42%, #ffbf3f 68%, #fff2b7 100%);
   -webkit-background-clip: text;
   background-clip: text;
-  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.34);
-  text-shadow: 0 0 8px rgba(255, 244, 214, 0.58), 0 0 22px rgba(251, 191, 36, 0.52), 0 0 46px rgba(56, 189, 248, 0.28), 0 10px 26px rgba(0, 0, 0, 0.5);
-  animation: winnerReveal 1500ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  -webkit-text-stroke: 0.45px rgba(255, 255, 255, 0.28);
+  text-shadow: 0 0 5px rgba(255, 244, 214, 0.42), 0 0 14px rgba(251, 191, 36, 0.36), 0 0 30px rgba(56, 189, 248, 0.18), 0 8px 22px rgba(0, 0, 0, 0.48);
+  animation: winnerReveal 700ms cubic-bezier(0.16, 1, 0.3, 1) both, winnerSettleScale 1150ms cubic-bezier(0.19, 1, 0.22, 1) 360ms both;
 }
 
 .dean-card-active [data-dean-name] {
@@ -385,11 +375,18 @@ body.raffle-active .raffle-header {
 @keyframes winnerReveal {
   from {
     opacity: 0.78;
-    transform: translateY(4px) scale(0.985);
   }
   to {
     opacity: 1;
+  }
+}
+
+@keyframes winnerSettleScale {
+  from {
     transform: translateY(0) scale(1);
+  }
+  to {
+    transform: translateY(-22px) scale(1.26);
   }
 }
 
