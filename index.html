@@ -10,36 +10,44 @@
 <body class="min-h-screen overflow-hidden">
   <div class="stage-bg" aria-hidden="true"></div>
   <div class="stage-vignette" aria-hidden="true"></div>
+  <div class="ambient-field" aria-hidden="true">
+    <span></span><span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span><span></span>
+  </div>
+  <button id="enableSound" class="admin-button fixed right-5 top-5 z-20 rounded-xl border border-amber-200/40 bg-red-700/55 px-4 py-2 text-sm font-black text-amber-50 backdrop-blur">开启大屏音效</button>
 
-  <main id="displayStage" class="display-stage relative flex min-h-screen flex-col p-8">
-    <section id="introScene" class="intro-scene flex min-h-[calc(100vh-4rem)] flex-col items-center justify-start pt-16 text-center">
+  <main id="displayStage" class="display-stage relative flex min-h-screen flex-col p-4">
+    <section id="introScene" class="intro-scene flex min-h-[calc(100vh-2rem)] flex-col items-center justify-start pt-8 text-center">
       <div class="particle-field" aria-hidden="true">
+        <span></span><span></span><span></span><span></span><span></span><span></span>
         <span></span><span></span><span></span><span></span><span></span><span></span>
         <span></span><span></span><span></span><span></span><span></span><span></span>
       </div>
       <div class="intro-aura" aria-hidden="true"></div>
       <div class="intro-content">
         <h1 class="intro-title">毕业晚会幸运抽奖</h1>
+        <p class="intro-subtitle">辽宁工程技术大学葫芦岛校区2026年毕业晚会</p>
       </div>
     </section>
 
-    <section id="raffleScene" class="raffle-scene pointer-events-none absolute inset-0 flex flex-col p-8 opacity-0">
+    <section id="raffleScene" class="raffle-scene pointer-events-none absolute inset-0 flex flex-col p-4 opacity-0">
       <header class="raffle-header text-center">
-        <h1 id="roundTitle" class="text-6xl font-black glow-text"></h1>
-        <p id="roundSubtitle" class="mt-4 text-xl text-white/70"></p>
+        <h1 id="roundTitle" class="text-4xl font-black glow-text"></h1>
+        <p id="roundSubtitle" class="raffle-subtitle mt-2 text-base text-white/70"></p>
       </header>
 
-      <section id="normalDisplay" class="flex flex-1 flex-col justify-center gap-8 py-8">
-        <div id="rollingGrid" class="grid grid-cols-2 gap-4 md:grid-cols-4 xl:grid-cols-6"></div>
-        <div id="winnerGrid" class="grid grid-cols-5 gap-3"></div>
+      <section id="normalDisplay" class="flex flex-1 flex-col justify-center gap-4 py-4">
+        <div id="rollingGrid" class="grid"></div>
+        <div id="winnerGrid" class="grid"></div>
       </section>
 
-      <section id="deanDisplay" class="hidden flex-1 items-center py-8">
-        <div id="deanCards" class="grid w-full gap-5 lg:grid-cols-5"></div>
+      <section id="deanDisplay" class="hidden flex-1 items-center py-3">
+        <div id="deanCards" class="dean-card-grid grid w-full gap-4 lg:grid-cols-5"></div>
       </section>
     </section>
   </main>
 
+  <audio id="raffleSound" src="抽奖音效.mp3" preload="auto"></audio>
   <script src="data.js"></script>
   <script src="display.js"></script>
 </body>
