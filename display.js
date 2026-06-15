@@ -2,8 +2,6 @@ const channel = new BroadcastChannel('raffle-sync');
 const introScene = document.querySelector('#introScene');
 const roundTitle = document.querySelector('#roundTitle');
 const roundSubtitle = document.querySelector('#roundSubtitle');
-const raffleSound = document.querySelector('#raffleSound');
-const enableSound = document.querySelector('#enableSound');
 const normalDisplay = document.querySelector('#normalDisplay');
 const deanDisplay = document.querySelector('#deanDisplay');
 const rollingGrid = document.querySelector('#rollingGrid');
@@ -17,21 +15,6 @@ const displayState = {
 
 function randomStudent() {
   return studentData[Math.floor(Math.random() * studentData.length)];
-}
-
-function playRaffleSound() {
-  if (!raffleSound) return;
-  raffleSound.pause();
-  raffleSound.currentTime = 0;
-  raffleSound.play().catch(() => {
-    enableSound.classList.remove('hidden');
-  });
-}
-
-function stopRaffleSound() {
-  if (!raffleSound) return;
-  raffleSound.pause();
-  raffleSound.currentTime = 0;
 }
 
 function enterRaffleScene() {
@@ -57,7 +40,6 @@ function clearNormalRolling() {
 }
 
 function resetDisplayState() {
-  stopRaffleSound();
   clearNormalRolling();
   displayState.deanTimers.forEach((timer) => window.clearInterval(timer));
   displayState.deanTimers.clear();
@@ -210,7 +192,6 @@ function handleMessage(message) {
     showRound(message.round, message.roundLabel);
   }
   if (message.action === 'START_ROLL_NORMAL') {
-    playRaffleSound();
     showRound(message.round, message.roundLabel);
     startNormalRolling(message.count);
   }
@@ -218,12 +199,10 @@ function handleMessage(message) {
     renderNormalWinners(message.winners);
   }
   if (message.action === 'START_ROLL_DEAN') {
-    playRaffleSound();
     showRound('DEAN_DRAW', '毕业晚会学院特殊礼物抽奖');
     setDeanRolling(message.college);
   }
   if (message.action === 'REROLL_DEAN') {
-    playRaffleSound();
     showRound('DEAN_DRAW', '毕业晚会学院特殊礼物抽奖');
     setDeanRolling(message.college);
   }
@@ -232,17 +211,28 @@ function handleMessage(message) {
   }
 }
 
-enableSound.addEventListener('click', () => {
-  if (!raffleSound) return;
-  raffleSound.volume = 1;
-  raffleSound.play()
-    .then(() => {
-      raffleSound.pause();
-      raffleSound.currentTime = 0;
-      enableSound.classList.add('hidden');
-    })
-    .catch(() => {});
-});
+function bindDisplayEvents() {
+  channel.addEventListener('message', (event) => handleMessage(event.data));
+}
 
-renderDeanCards();
-channel.addEventListener('message', (event) => handleMessage(event.data));
+function showDisplayDataError(error) {
+  console.error(error);
+  enterRaffleScene();
+  roundTitle.textContent = '活动名单加载失败';
+  roundSubtitle.textContent = '请检查 event-data.json，并通过本地服务器打开页面。';
+  normalDisplay.classList.remove('hidden');
+  normalDisplay.classList.add('flex');
+  deanDisplay.classList.add('hidden');
+  winnerGrid.innerHTML = `
+    <article class="glass-card glow-border p-6 text-center">
+      <p class="text-2xl font-black text-white">${error.message}</p>
+    </article>
+  `;
+}
+
+function initializeDisplay() {
+  bindDisplayEvents();
+  renderDeanCards();
+}
+
+window.raffleDataReady.then(initializeDisplay).catch(showDisplayDataError);

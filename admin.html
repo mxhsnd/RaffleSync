@@ -13,7 +13,7 @@
       <div>
         <p class="text-sm uppercase tracking-[0.45em] text-amber-200/85">RaffleSync Admin</p>
         <h1 class="text-4xl font-black glow-text">毕业晚会抽奖控制台</h1>
-        <p id="statusText" class="mt-2 text-white/70">等待操作，已加载 3000 名测试学生。</p>
+        <p id="statusText" class="mt-2 text-white/70">正在加载活动名单...</p>
       </div>
       <div class="grid grid-cols-2 gap-3 lg:grid-cols-5">
         <button data-round="NORMAL_A" class="round-btn admin-button rounded-xl bg-red-700/35 px-5 py-3 font-bold text-amber-50 border border-amber-200/40">预热活动抽奖</button>
@@ -42,8 +42,8 @@
         </div>
       </div>
       <div class="flex flex-wrap gap-3">
-        <button id="startNormal" class="admin-button rounded-xl bg-red-600 px-6 py-3 font-black text-amber-50">开始滚动（自动开奖）</button>
-        <button id="stopNormal" class="admin-button hidden rounded-xl bg-amber-400 px-6 py-3 font-black text-red-950">停止并开奖</button>
+        <button id="startNormal" class="admin-button rounded-xl bg-red-600 px-6 py-3 font-black text-amber-50">开始滚动</button>
+        <button id="stopNormal" class="admin-button rounded-xl bg-amber-400 px-6 py-3 font-black text-red-950" disabled>开奖</button>
       </div>
       <div id="normalWinners" class="grid gap-3 sm:grid-cols-2 lg:grid-cols-4"></div>
     </section>
@@ -51,13 +51,39 @@
     <section id="deanPanel" class="glass-card p-6 space-y-5 hidden">
       <div>
         <h2 class="text-2xl font-black gold-text">毕业晚会学院特殊礼物抽奖</h2>
-        <p class="text-white/60">每个学院独立抽取 1 人，支持不在场重抽。</p>
+      </div>
+      <div class="rounded-xl border border-amber-200/20 bg-white/5 p-4 space-y-3">
+        <label class="block text-sm font-bold text-amber-100/85">
+          <input id="specifiedDeanToggle" type="checkbox" class="mr-2 align-middle accent-amber-400">
+          开启指定下一次学院抽取
+        </label>
+        <div class="rounded-xl border border-white/10 bg-white/5 p-3 space-y-2">
+          <p class="text-sm font-bold text-amber-100/85">快捷填充</p>
+          <div class="flex flex-col gap-2 sm:flex-row sm:items-end">
+            <label class="block flex-1">
+              <span class="text-sm text-white/70">快捷编号</span>
+              <input id="specifiedQuickNumber" type="number" min="1" placeholder="请输入编号" class="mt-2 w-full rounded-xl border border-white/20 bg-white/10 px-4 py-3 text-lg font-bold text-white outline-none focus:border-amber-300">
+            </label>
+            <button id="applySpecifiedQuickPerson" type="button" class="admin-button rounded-xl bg-white/10 px-4 py-3 font-black text-amber-50 border border-white/20">填入指定人员</button>
+          </div>
+          <p id="specifiedQuickStatus" class="text-sm text-white/55">快捷人员名单加载中，只用于填充姓名和班级。</p>
+        </div>
+        <div class="grid gap-3 sm:grid-cols-2">
+          <label class="block">
+            <span class="text-sm text-white/70">指定姓名</span>
+            <input id="specifiedDeanName" type="text" placeholder="请输入姓名" class="mt-2 w-full rounded-xl border border-white/20 bg-white/10 px-4 py-3 text-lg font-bold text-white outline-none focus:border-amber-300">
+          </label>
+          <label class="block">
+            <span class="text-sm text-white/70">指定班级</span>
+            <input id="specifiedDeanClass" type="text" placeholder="请输入班级" class="mt-2 w-full rounded-xl border border-white/20 bg-white/10 px-4 py-3 text-lg font-bold text-white outline-none focus:border-amber-300">
+          </label>
+        </div>
+        <p id="specifiedDeanStatus" class="text-sm text-white/55">未开启指定抽取，学院特殊礼物抽奖将正常随机。</p>
       </div>
       <div id="deanControls" class="grid gap-4 lg:grid-cols-5"></div>
     </section>
   </main>
 
-  <audio id="raffleSound" src="抽奖音效.mp3" preload="auto"></audio>
   <script src="data.js"></script>
   <script src="control.js"></script>
 </body>

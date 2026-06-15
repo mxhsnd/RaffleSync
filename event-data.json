@@ -1,0 +1,117 @@
+{
+  "eventName": "RaffleSync 测试名单",
+  "colleges": [
+    {
+      "name": "安全科学与工程学院",
+      "shortName": "安全学院"
+    },
+    {
+      "name": "工商管理学院",
+      "shortName": "工商学院"
+    },
+    {
+      "name": "电气与控制工程学院",
+      "shortName": "电控学院"
+    },
+    {
+      "name": "电子与信息工程学院",
+      "shortName": "电信学院"
+    },
+    {
+      "name": "软件学院（人工智能学院）",
+      "shortName": "软件学院"
+    }
+  ],
+  "students": [
+    {
+      "college": "安全科学与工程学院",
+      "className": "安全测试1班",
+      "name": "测试同学001",
+      "studentId": "TEMP0001"
+    },
+    {
+      "college": "安全科学与工程学院",
+      "className": "安全测试1班",
+      "name": "测试同学002",
+      "studentId": "TEMP0002"
+    },
+    {
+      "college": "安全科学与工程学院",
+      "className": "安全测试2班",
+      "name": "测试同学003",
+      "studentId": "TEMP0003"
+    },
+    {
+      "college": "工商管理学院",
+      "className": "工商测试1班",
+      "name": "测试同学004",
+      "studentId": "TEMP0004"
+    },
+    {
+      "college": "工商管理学院",
+      "className": "工商测试1班",
+      "name": "测试同学005",
+      "studentId": "TEMP0005"
+    },
+    {
+      "college": "工商管理学院",
+      "className": "工商测试2班",
+      "name": "测试同学006",
+      "studentId": "TEMP0006"
+    },
+    {
+      "college": "电气与控制工程学院",
+      "className": "电控测试1班",
+      "name": "测试同学007",
+      "studentId": "TEMP0007"
+    },
+    {
+      "college": "电气与控制工程学院",
+      "className": "电控测试1班",
+      "name": "测试同学008",
+      "studentId": "TEMP0008"
+    },
+    {
+      "college": "电气与控制工程学院",
+      "className": "电控测试2班",
+      "name": "测试同学009",
+      "studentId": "TEMP0009"
+    },
+    {
+      "college": "电子与信息工程学院",
+      "className": "计算测试1班",
+      "name": "测试同学010",
+      "studentId": "TEMP0010"
+    },
+    {
+      "college": "电子与信息工程学院",
+      "className": "电信测试1班",
+      "name": "测试同学011",
+      "studentId": "TEMP0011"
+    },
+    {
+      "college": "电子与信息工程学院",
+      "className": "电信测试2班",
+      "name": "测试同学012",
+      "studentId": "TEMP0012"
+    },
+    {
+      "college": "软件学院（人工智能学院）",
+      "className": "软件测试1班",
+      "name": "测试同学013",
+      "studentId": "TEMP0013"
+    },
+    {
+      "college": "软件学院（人工智能学院）",
+      "className": "软件测试1班",
+      "name": "测试同学014",
+      "studentId": "TEMP0014"
+    },
+    {
+      "college": "软件学院（人工智能学院）",
+      "className": "软件测试2班",
+      "name": "测试同学015",
+      "studentId": "TEMP0015"
+    }
+  ]
+}

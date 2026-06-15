@@ -1,0 +1,11 @@
+# Local/generated packages
+/dist/
+/test-results/
+
+# Private or source roster data
+/event-data-versions/
+/数据参考/
+*.rar
+*.xlsx
+
+# Keep the root sample JSON files versioned for local demo runs

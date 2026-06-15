@@ -1,26 +1,88 @@
-const colleges = [
-  { name: '安全科学与工程学院（应急管理学院）', shortName: '安全科学与工程学院', classPrefix: '安全24' },
-  { name: '工商管理学院', shortName: '工商管理学院', classPrefix: '工商24' },
-  { name: '电气与控制工程学院', shortName: '电气与控制工程学院', classPrefix: '电气24' },
-  { name: '电子与信息工程学院', shortName: '电子与信息工程学院', classPrefix: '电信24' },
-  { name: '软件学院（人工智能学院）', shortName: '软件学院', classPrefix: '软件24' }
-];
+const EVENT_DATA_URL = 'event-data.json';
 
-const familyNames = ['赵', '钱', '孙', '李', '周', '吴', '郑', '王', '冯', '陈', '刘', '杨', '黄', '林', '马', '高', '胡', '郭', '何', '罗'];
-const givenNames = ['晨曦', '子涵', '浩然', '雨桐', '梓轩', '思源', '嘉怡', '宇航', '欣然', '明哲', '若溪', '景行', '一诺', '星辰', '知远', '语嫣', '博文', '沐阳', '芷晴', '承泽'];
+window.raffleEventData = null;
+window.colleges = [];
+window.studentData = [];
 
-const studentData = colleges.flatMap((college, collegeIndex) => {
-  return Array.from({ length: 600 }, (_, index) => {
-    const sequence = collegeIndex * 600 + index + 1;
-    const classNumber = String(Math.floor(index / 50) + 1).padStart(2, '0');
-    const studentNumber = String(index + 1).padStart(4, '0');
+function assertArray(value, label) {
+  if (!Array.isArray(value) || value.length === 0) {
+    throw new Error(`${label} 必须是非空数组。`);
+  }
+}
 
-    return {
-      college: college.name,
-      className: `${college.classPrefix}-${classNumber}`,
-      name: `${familyNames[(sequence + collegeIndex) % familyNames.length]}${givenNames[(sequence * 3 + collegeIndex) % givenNames.length]}`,
-      studentId: `24${String(collegeIndex + 1).padStart(2, '0')}${studentNumber}`,
-      isDrawn: false
-    };
-  });
-});
+function assertText(value, label) {
+  if (typeof value !== 'string' || !value.trim()) {
+    throw new Error(`${label} 必须是非空文本。`);
+  }
+}
+
+function normalizeCollege(college, index) {
+  assertText(college.name, `colleges[${index}].name`);
+  assertText(college.shortName, `colleges[${index}].shortName`);
+  return {
+    name: college.name.trim(),
+    shortName: college.shortName.trim()
+  };
+}
+
+function normalizeStudent(student, index, collegeNames, seenIds) {
+  assertText(student.college, `students[${index}].college`);
+  assertText(student.className, `students[${index}].className`);
+  assertText(student.name, `students[${index}].name`);
+  assertText(student.studentId, `students[${index}].studentId`);
+
+  const college = student.college.trim();
+  const studentId = student.studentId.trim();
+  if (!collegeNames.has(college)) {
+    throw new Error(`${student.name || `students[${index}]`} 的学院不在 colleges 列表中：${college}`);
+  }
+  if (seenIds.has(studentId)) {
+    throw new Error(`studentId 重复：${studentId}`);
+  }
+  seenIds.add(studentId);
+
+  return {
+    college,
+    className: student.className.trim(),
+    name: student.name.trim(),
+    studentId,
+    isDrawn: false
+  };
+}
+
+function normalizeEventData(rawData) {
+  if (!rawData || typeof rawData !== 'object') {
+    throw new Error('event-data.json 必须是一个 JSON 对象。');
+  }
+
+  assertText(rawData.eventName, 'eventName');
+  assertArray(rawData.colleges, 'colleges');
+  assertArray(rawData.students, 'students');
+
+  const normalizedColleges = rawData.colleges.map(normalizeCollege);
+  const collegeNames = new Set(normalizedColleges.map((college) => college.name));
+  const seenIds = new Set();
+  const normalizedStudents = rawData.students.map((student, index) => normalizeStudent(student, index, collegeNames, seenIds));
+
+  return {
+    eventName: rawData.eventName.trim(),
+    colleges: normalizedColleges,
+    students: normalizedStudents
+  };
+}
+
+async function loadRaffleEventData() {
+  const response = await fetch('event-data.json');
+  if (!response.ok) {
+    throw new Error(`无法读取 ${EVENT_DATA_URL}：HTTP ${response.status}`);
+  }
+
+  const rawData = await response.json();
+  const eventData = normalizeEventData(rawData);
+  window.raffleEventData = eventData;
+  window.colleges = eventData.colleges;
+  window.studentData = eventData.students;
+  return eventData;
+}
+
+window.raffleDataReady = loadRaffleEventData();
